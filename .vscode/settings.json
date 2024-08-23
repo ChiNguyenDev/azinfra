@@ -1,0 +1,5 @@
+{
+    "yaml.schemas": {
+        "environments\\schemer\\backuppolicies_meta.yml": "backuppolicies/*.yml"
+    }
+}

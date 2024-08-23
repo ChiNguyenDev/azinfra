@@ -1,0 +1,35 @@
+timezone: W. Europe Standard Time
+
+backup:
+  frequency: Weekly
+  time: 01:00
+  weekdays: 
+    - Monday
+    - Tuesday
+    - Wednesday
+    - Thursday
+    - Friday
+
+retention_daily:
+  count: 0
+
+retention_weekly:
+  count: 4
+  weekdays:
+    - Wednesday
+
+retention_monthly:
+  count: 0
+  weekdays: 
+    - Monday
+  weeks: 
+    - First
+
+retention_yearly:
+  count: 0
+  weekdays: 
+    - Monday
+  weeks: 
+    - First
+  months: 
+    - January

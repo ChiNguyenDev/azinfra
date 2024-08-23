@@ -1,0 +1,13 @@
+timezone: W. Europe Standard Time
+
+backup:
+  frequency: Weekly
+  time: 01:00
+  weekdays: 
+    - Wednesday
+  
+retention_weekly:
+  count: 4
+  weekdays:
+    - Wednesday
+

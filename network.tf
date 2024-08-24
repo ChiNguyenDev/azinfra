@@ -1,31 +1,32 @@
 resource "azurerm_resource_group" "webgroup" {
-  name     = "webgroup"
+  name     = "web-${module.naming.resource_group.name}"
   location = "West Europe"
 }
 
 
 //Beim Umzug zu Modulen:
 moved {
-  from = azurerm_virtual_network.t-vnet
-  to = module.network.azurerm_virtual_network.t-vnet
+  from = azurerm_virtual_network.vnet
+  to = module.network.azurerm_virtual_network.vnet
 }
 
 moved {
-  from = azurerm_subnet.t-subnetA
-  to = module.network.azurerm_subnet.t-subnetA["web"]
+  from = azurerm_subnet.subnetA
+  to = module.network.azurerm_subnet.subnetA["web"]
 }
 
 
 removed {
-  from = azurerm_network_security_group.t-nsg
+  from = azurerm_network_security_group.nsg
   lifecycle {
     destroy = false
   }
 }
 
 module "network" {
-  source         = "./modules/vnet/"
+  source         = "./modules/network/"
   resource_group = azurerm_resource_group.webgroup.name
   location       = azurerm_resource_group.webgroup.location
   configuration = var.network_configuration
+  naming = module.naming
 }

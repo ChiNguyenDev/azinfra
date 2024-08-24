@@ -19,22 +19,23 @@ variable "resource_group" {
     type = string
 }
 
+variable "naming" {
+  description = "Naming module object"
+}
+
 variable "configuration" {
   nullable = false
   description = "(required) configuration for the VNet"
   type = object({
     vnet = object({
-      name = string
       address_space = list(string)
     })
     subnet = map(object({
-        name = string
         address_prefix = string
         nsg_association = optional(string, null) //wird als null gesetzt
     })) 
     //Option mehrere NSG
     nsg = map(object({
-      name = string
       rule = map(object({
         name = string
         priority = number

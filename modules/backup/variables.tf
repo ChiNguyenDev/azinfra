@@ -19,12 +19,15 @@ variable "resource_group" {
   type        = string
 }
 
+variable "naming" {
+  description = "Naming module object"
+}
+
 variable "configuration" {
   nullable    = false
   description = "(required) configuration for the backup"
   type = object({
     recovery_vault = object({
-      name                = string
       sku                 = optional(string, "Standard")
       soft_delete_enabled = optional(bool, false)
     })

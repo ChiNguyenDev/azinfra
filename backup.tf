@@ -15,4 +15,5 @@ module "backup" {
   configuration  = var.backup_configuration
   backup_policy  = local.backup_policy_files
   vm_reference = module.vm // map of vm instances
+  naming = module.naming
 }

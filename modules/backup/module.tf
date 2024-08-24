@@ -1,5 +1,5 @@
 resource "azurerm_recovery_services_vault" "recovery_vault" {
-  name                = var.configuration.recovery_vault.name
+  name                = var.naming.recovery_services_vault.name
   location            = var.location
   resource_group_name = var.resource_group
   sku                 = var.configuration.recovery_vault.sku

@@ -19,17 +19,19 @@ variable "resource_group" {
   type        = string
 }
 
+variable "naming" {
+  description = "Naming module object"
+}
+
 variable "configuration" {
     nullable = false
     description = "This is the configuration for the load balancer"
     type = object({
-        name = string
         sku = string
         frontend_ip_configuration = object({
-          name = string
+          name = optional(string, "ip_config1")
         })
         public_ip = object({
-          name = string
           allocation_method = optional(string, "Static")
           sku = string
         })

@@ -1,5 +1,5 @@
 resource "azurerm_lb" "loadbalancer" {
-  name                = var.configuration.name
+  name                = var.naming.lb.name
   location            = var.location
   resource_group_name = var.resource_group
   sku = var.configuration.sku
@@ -10,7 +10,7 @@ resource "azurerm_lb" "loadbalancer" {
 }
 
 resource "azurerm_public_ip" "lb_ip" {
-  name                = var.configuration.public_ip.name
+  name                = "lb-${var.naming.public_ip.name}"
   location            = var.location
   resource_group_name = var.resource_group
   allocation_method   = var.configuration.public_ip.allocation_method

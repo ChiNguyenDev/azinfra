@@ -1,21 +1,21 @@
-resource "azurerm_virtual_network" "t-vnet" {
-  name                = var.configuration.vnet.name
+resource "azurerm_virtual_network" "vnet" {
+  name                = var.naming.virtual_network.name
   location            = var.location
   resource_group_name = var.resource_group
   address_space       = var.configuration.vnet.address_space
 }
 
-resource "azurerm_subnet" "t-subnetA" {
+resource "azurerm_subnet" "subnetA" {
   for_each = var.configuration.subnet
-  name                 = each.value.name
+  name                 = "${each.key}-${var.naming.subnet.name}"
   resource_group_name  = var.resource_group
-  virtual_network_name = azurerm_virtual_network.t-vnet.name
+  virtual_network_name = azurerm_virtual_network.vnet.name
   address_prefixes     = [each.value.address_prefix]
 }
 
-resource "azurerm_network_security_group" "t-nsg" {
+resource "azurerm_network_security_group" "nsg" {
   for_each = var.configuration.nsg
-  name                = each.value.name
+  name                = "${each.key}-${var.naming.network_security_group.name}"
   location            = var.location
   resource_group_name = var.resource_group
 
@@ -36,13 +36,13 @@ resource "azurerm_network_security_group" "t-nsg" {
   }
 }
 
-resource "azurerm_subnet_network_security_group_association" "t_association" {
+resource "azurerm_subnet_network_security_group_association" "nsg_association" {
   for_each = {
     for subnet_key, subnet_value in var.configuration.subnet:
     subnet_key => subnet_value
     //filtert alle nulls raus
     if subnet_value.nsg_association != null 
   }
-  subnet_id                 = azurerm_subnet.t-subnetA[each.key].id
-  network_security_group_id = azurerm_network_security_group.t-nsg[each.value.nsg_association].id
+  subnet_id                 = azurerm_subnet.subnetA[each.key].id
+  network_security_group_id = azurerm_network_security_group.nsg[each.value.nsg_association].id
 }

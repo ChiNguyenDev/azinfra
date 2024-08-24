@@ -6,6 +6,12 @@ variable "tags" {
   }
 }
 
+variable "environment_decleration" {
+  nullable = false
+  description = "this is the environment decleration (test/prod)"
+  type = string
+}
+
 variable "location" {
   nullable    = false
   description = "(required) location for Azure resources"
@@ -19,11 +25,20 @@ variable "resource_group" {
   type        = string
 }
 
+variable "naming" {
+  description = "Naming module object"
+}
+
+variable "vm_name" {
+  nullable = false
+  description = "name of the indiviudal vm instances"
+  type = string
+}
+
 variable "configuration" {
   nullable    = false
   description = "(required) configuration for the VNet"
   type = object({
-    name               = string
     backup_policy_name = optional(string)
     size               = optional(string, "Standard_F2")
     admin_username     = string
@@ -53,13 +68,11 @@ variable "configuration" {
     )
 
     nic = object({
-      name = string
       ip_config = object({
-        name                          = string
+        name                          = optional(string, "ipconfig1")
         subnet_key                    = string
         private_ip_address_allocation = optional(string, "Dynamic")
         public_ip = optional(object({
-          name = string
           allocation_method = optional(string, "Dynamic")
           sku = optional(string, "Standard")
         }))

@@ -22,3 +22,8 @@ variable "loadbalancer_configuration" {
   description = "(required) this is the configuration for the loadbalancer"
   type        = any
 }
+
+variable "environment_decleration" {
+  description = "(required) this is environment decleration for the naming module"
+  type = string
+}

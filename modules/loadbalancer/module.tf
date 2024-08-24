@@ -7,6 +7,7 @@ resource "azurerm_lb" "loadbalancer" {
     name                 = var.configuration.frontend_ip_configuration.name
     public_ip_address_id = azurerm_public_ip.lb_ip.id
   }
+  tags = var.tags
 }
 
 resource "azurerm_public_ip" "lb_ip" {
@@ -15,6 +16,7 @@ resource "azurerm_public_ip" "lb_ip" {
   resource_group_name = var.resource_group
   allocation_method   = var.configuration.public_ip.allocation_method
   sku = var.configuration.public_ip.sku
+  tags = var.tags
 }
 
 resource "azurerm_lb_backend_address_pool" "lb_backendpool" {

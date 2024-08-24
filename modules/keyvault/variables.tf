@@ -11,8 +11,9 @@ variable "configuration" {
     type = object({
       name = string 
       resource_group_name = string
-      secret = object({
-        name = string
+      secrets = object({
+        vm_secret_name = string
+        db_secret_name = string
       })
     })
 }

@@ -1,7 +1,7 @@
 locals {
-  //fileset liest alle Dateien aus, die einem Muster folgen
-  //file: list Datei aus an einem bestimmten Pfad
-  //ymldecode: übersetzt yml string in ein terraform objekt
+  //fileset: reads all the files, that follow a certain pattern
+  //file: reads all files at a certain path
+  //ymldecode: translates yml string into a terraform object
   backup_policy_files = {for file in fileset(var.backup_configuration.recovery_vault.backup_policies_path, "*.yml"):
     replace(file, ".yml", "") => yamldecode(file("${var.backup_configuration.recovery_vault.backup_policies_path}/${file}"))
     if !strcontains(file, "example.yml")
@@ -14,6 +14,7 @@ module "backup" {
   location       = azurerm_resource_group.applicationgroup.location  
   configuration  = var.backup_configuration
   backup_policy  = local.backup_policy_files
-  vm_reference = module.vm // map of vm instances
+  vm_reference = module.vm // map of vm instances defined as locals
   naming = module.naming
+  tags = local.common_tags
 }

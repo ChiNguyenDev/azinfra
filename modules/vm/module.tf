@@ -6,6 +6,7 @@ resource "azurerm_public_ip" "azrinfra_publicip" {
   allocation_method   = var.configuration.nic.ip_config.public_ip.allocation_method
   sku = var.configuration.nic.ip_config.public_ip.sku
   depends_on = [ var.resource_group ]
+  tags = var.tags
 }
 
 resource "azurerm_network_interface" "azrinfra_interface" {
@@ -17,11 +18,12 @@ resource "azurerm_network_interface" "azrinfra_interface" {
     subnet_id                     = var.subnet_reference[var.configuration.nic.ip_config.subnet_key].id
     private_ip_address_allocation = var.configuration.nic.ip_config.private_ip_address_allocation
     /*
-    Erste Möglichkeit:
+    first possibility:
     public_ip_address_id          = length(azurerm_public_ip.azrinfra_publicip) > 0 ? azurerm_public_ip.azrinfra_publicip.0.id : null
     */
     public_ip_address_id = one(azurerm_public_ip.azrinfra_publicip.*.id)
   }
+  tags = var.tags
 }
 
 resource "azurerm_windows_virtual_machine" "azrinfra_vm" {
@@ -51,14 +53,22 @@ resource "azurerm_windows_virtual_machine" "azrinfra_vm" {
         error_message = "OS Disk should be a LRS - currently: ${var.configuration.os_disk.storage_account_type}"
     }
   }
+  tags = var.tags
 }
 
-/*
-//Prüft ob OS_Disk eine SSD ist
-check "azrinfra_vm" {
-    assert{
-        condition = strcontains(var.configuration.os_disk.storage_account_type, "SSD")
-        error_message = "OS Disk should be a SSD - currently: ${var.configuration.os_disk.storage_account_type}"
+resource "azurerm_managed_disk" "source" {
+  name                 = "${var.vm_name}-${var.naming.managed_disk.name}"
+  location             = var.location
+  resource_group_name  = var.resource_group
+  storage_account_type = var.configuration.managed_disk.storage_account_type
+  create_option        = var.configuration.managed_disk.create_option
+  disk_size_gb         = var.configuration.managed_disk.disk_size_gb
+
+  lifecycle {
+    precondition {
+        condition = strcontains(var.configuration.os_disk.storage_account_type, "LRS")
+        error_message = "OS Disk should be a LRS - currently: ${var.configuration.os_disk.storage_account_type}"
     }
+  }
+  tags = var.tags
 }
-*/

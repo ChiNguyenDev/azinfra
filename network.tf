@@ -1,6 +1,7 @@
 resource "azurerm_resource_group" "webgroup" {
   name     = "web-${module.naming.resource_group.name}"
   location = "West Europe"
+  tags = local.common_tags
 }
 
 
@@ -29,4 +30,5 @@ module "network" {
   location       = azurerm_resource_group.webgroup.location
   configuration = var.network_configuration
   naming = module.naming
+  tags = local.common_tags
 }

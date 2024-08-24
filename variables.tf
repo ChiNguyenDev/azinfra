@@ -27,3 +27,8 @@ variable "environment_decleration" {
   description = "(required) this is environment decleration for the naming module"
   type = string
 }
+
+variable "database_configuration" {
+  description = "(required) this is the confogiration for the database"
+  type = any
+}

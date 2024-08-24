@@ -3,6 +3,7 @@ resource "azurerm_virtual_network" "vnet" {
   location            = var.location
   resource_group_name = var.resource_group
   address_space       = var.configuration.vnet.address_space
+  tags = var.tags
 }
 
 resource "azurerm_subnet" "subnetA" {
@@ -19,7 +20,6 @@ resource "azurerm_network_security_group" "nsg" {
   location            = var.location
   resource_group_name = var.resource_group
 
-  //dynamic für eine Gruppe untergeordneter Einheiten einer Ressource
   dynamic "security_rule" {
     for_each = each.value.rule
     content {

@@ -7,9 +7,9 @@ variable "tags" {
 }
 
 variable "environment_decleration" {
-  nullable = false
+  nullable    = false
   description = "this is the environment decleration (test/prod)"
-  type = string
+  type        = string
 }
 
 variable "location" {
@@ -30,9 +30,9 @@ variable "naming" {
 }
 
 variable "vm_name" {
-  nullable = false
+  nullable    = false
   description = "name of the indiviudal vm instances"
-  type = string
+  type        = string
 }
 
 variable "configuration" {
@@ -50,6 +50,18 @@ variable "configuration" {
       }), {
       caching              = "ReadWrite"
       storage_account_type = "Standard_LRS"
+      }
+    )
+
+    managed_disk = optional(object({
+      storage_account_type = optional(string, "Standard_LRS")
+      create_option        = optional(string, "Empty")
+      disk_size_gb         = optional(string, "1")
+      }),
+      {
+        storage_account_type = "Standard_LRS"
+        create_option        = "Empty"
+        disk_size_gb         = "1"
       }
     )
 
@@ -74,7 +86,7 @@ variable "configuration" {
         private_ip_address_allocation = optional(string, "Dynamic")
         public_ip = optional(object({
           allocation_method = optional(string, "Dynamic")
-          sku = optional(string, "Standard")
+          sku               = optional(string, "Standard")
         }))
       })
     })

@@ -2,8 +2,6 @@ variable "tags" {
   nullable    = false
   description = "(optional) tags for the Azure resources"
   type        = map(string)
-  default = {
-  }
 }
 
 variable "location" {

@@ -1,5 +1,6 @@
 This project demonstrates a scalable cloud infrastructure using Azure, designed to host key DevOps components and services. 
 
+-------------------------------------------------------------------------------------------------------------------
 Key Components:
 
 Git Server: Version control hosted on an Azure VM, providing a centralized repository for all projects. Ansible automates the installation and configuration of Gitea on the VM.
@@ -12,6 +13,7 @@ MS SQL Database: A managed Azure SQL Database is used for secure, reliable data 
 
 Datadog: Comprehensive monitoring and alerting are integrated via Datadog. Ansible automates the installation and configuration of Datadog agents on the VMs, ensuring that monitoring is consistently applied across the infrastructure.
 
+-------------------------------------------------------------------------------------------------------------------
 Key Technologies Used:
 
 Terraform: Provisioning of infrastructure resources including VMs, load balancer, firewall, and Azure SQL Database.

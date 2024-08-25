@@ -3,7 +3,7 @@ This project demonstrates a scalable cloud infrastructure using Azure, designed 
 -------------------------------------------------------------------------------------------------------------------
 Key Components:
 
-Git Server: Version control hosted on an Azure VM, providing a centralized repository for all projects
+Git Server: Version control hosted on an Azure VM trough Gitea, providing a centralized repository for all projects
 
 CI/CD Pipeline: Automated deployment and integration using Jenkins, with Jenkins agents containerized for efficient scaling and management
 

@@ -56,7 +56,43 @@ resource "azurerm_windows_virtual_machine" "azrinfra_vm" {
   tags = var.tags
 }
 
+resource "azurerm_linux_virtual_machine" "azrinfra_vm" {
+  name                = "${var.vm_name}-${var.environment_decleration}"
+  resource_group_name = var.resource_group
+  location            = var.location
+  size                = var.configuration.size
+  admin_username      = var.configuration.admin_username
+  admin_password      = var.configuration.admin_password
+  network_interface_ids = [
+    azurerm_network_interface.azrinfra_interface.id,
+  ]
+
+  disable_password_authentication = var.configuration.disable_password_authentication
+
+
+  os_disk {
+    caching              = var.configuration.os_disk.caching
+    storage_account_type = var.configuration.os_disk.storage_account_type
+  }
+
+  source_image_reference {
+    publisher = var.configuration.source_image_reference.publisher
+    offer     = var.configuration.source_image_reference.offer
+    sku       = var.configuration.source_image_reference.sku
+    version   = var.configuration.source_image_reference.version
+  }
+  lifecycle {
+    precondition {
+        condition = strcontains(var.configuration.os_disk.storage_account_type, "LRS")
+        error_message = "OS Disk should be a LRS - currently: ${var.configuration.os_disk.storage_account_type}"
+    }
+  }
+
+  tags = var.tags
+}
+
 resource "azurerm_managed_disk" "source" {
+  count = var.configuration.managed_disk != null? 1 : 0
   name                 = "${var.vm_name}-${var.naming.managed_disk.name}"
   location             = var.location
   resource_group_name  = var.resource_group

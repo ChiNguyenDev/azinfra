@@ -11,12 +11,13 @@ locals {
   }
 }
 
+// definition of all the vm's
 locals {
   vms = {
-    vm1 = {
+    vm-git-cicd = {
       backup_policy_name = "vm_weekly_1h"
       admin_username     = "chi.nguyen"
-      admin_password     = module.keyvault.vm_password_secret
+      admin_password     = module.keyvault.vm1_password_secret
       nic = {
         ip_config = {
           name       = "internal"
@@ -27,10 +28,10 @@ locals {
         }
       }
     }
-    vm2 = {
+    vm-smtp = {
       backup_policy_name = "vm_weekly_1h"
       admin_username     = "chi.nguyen"
-      admin_password     = module.keyvault.vm_password_secret
+      admin_password     = module.keyvault.vm2_password_secret
       nic = {
         ip_config = {
           subnet_key = "app"

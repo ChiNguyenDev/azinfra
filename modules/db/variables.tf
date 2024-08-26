@@ -31,7 +31,7 @@ variable "configuration" {
   nullable    = false
   description = "(required) this is config for the mssql database"
   type = object({
-    db = object({
+    server = object({
       version             = optional(string, "12.0")
       administrator_login = string
       minimum_tls_version = optional(string, "1.2")
@@ -41,5 +41,24 @@ variable "configuration" {
         object_id      = string
       })
     })
+    db = optional(object({
+      collation      = string
+      license_type   = string
+      max_size_gb    = number
+      read_scale     = bool
+      sku_name       = string
+      zone_redundant = bool
+      enclave_type   = string
+      }),
+      {
+        collation      = "SQL_Latin1_General_CP1_CI_AS"
+        license_type   = "LicenseIncluded"
+        max_size_gb    = 4
+        read_scale     = true
+        sku_name       = "S0"
+        zone_redundant = true
+        enclave_type   = "VBS"
+      }
+    )
   })
 }

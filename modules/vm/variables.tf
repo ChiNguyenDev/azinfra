@@ -43,7 +43,6 @@ variable "configuration" {
     size               = optional(string, "Standard_F2")
     admin_username     = string
     admin_password     = string
-    disable_password_authentication = optional(string, "false")
 
     os_disk = optional(object({
       caching              = optional(string, "ReadWrite")
@@ -59,6 +58,11 @@ variable "configuration" {
       create_option        = optional(string, "Empty")
       disk_size_gb         = optional(string, "1")
       }),
+      {
+        storage_account_type = "Standard_LRS"
+        create_option        = "Empty"
+        disk_size_gb         = "1"
+      }
     )
 
     source_image_reference = optional(object({
@@ -68,9 +72,9 @@ variable "configuration" {
       version   = string
       }),
       {
-        publisher = "Canonical"
-        offer     = "0001-com-ubuntu-server-jammy"
-        sku       = "22_04-lts"
+        publisher = "MicrosoftWindowsServer"
+        offer     = "WindowsServer"
+        sku       = "2016-Datacenter"
         version   = "latest"
       }
     )

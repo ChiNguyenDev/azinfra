@@ -25,6 +25,18 @@ variable "resource_group" {
   type        = string
 }
 
+variable "web_resource_group" {
+  nullable    = false
+  description = "(required) web resource group for Azure resources"
+  type        = string
+}
+
+variable "dns_zone_name" {
+  nullable    = false
+  description = "(required) this is the name of the dns zone"
+  type        = string
+}
+
 variable "naming" {
   description = "Naming module object"
 }
@@ -39,10 +51,10 @@ variable "configuration" {
   nullable    = false
   description = "(required) configuration for the VNet"
   type = object({
-    backup_policy_name = optional(string)
-    size               = optional(string, "Standard_F2")
-    admin_username     = string
-    admin_password     = string
+    backup_policy_name              = optional(string)
+    size                            = optional(string, "Standard_F2")
+    admin_username                  = string
+    admin_password                  = string
     disable_password_authentication = optional(string, "false")
 
     os_disk = optional(object({

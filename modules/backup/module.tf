@@ -4,7 +4,7 @@ resource "azurerm_recovery_services_vault" "recovery_vault" {
   resource_group_name = var.resource_group
   sku                 = var.configuration.recovery_vault.sku
   soft_delete_enabled = var.configuration.recovery_vault.soft_delete_enabled
-  tags = var.tags
+  tags                = var.tags
 }
 
 
@@ -18,11 +18,11 @@ resource "azurerm_backup_policy_vm" "backup_policy" {
   backup {
     frequency = each.value.backup.frequency
     time      = each.value.backup.time
-    weekdays =  each.value.backup.weekdays
+    weekdays  = each.value.backup.weekdays
   }
 
-// dynamic blocks: only create retention configurations, if they are NOT null
-dynamic "retention_daily" {
+  // dynamic blocks: only create retention configurations, if they are NOT null
+  dynamic "retention_daily" {
     for_each = each.value.retention_daily != null ? [each.value.retention_daily] : []
     content {
       count = retention_daily.value.count
@@ -58,7 +58,7 @@ dynamic "retention_daily" {
 }
 
 resource "azurerm_backup_protected_vm" "vm" {
-  for_each = {for vm, vm_config in var.vm_reference:
+  for_each = { for vm, vm_config in var.vm_reference :
     vm => vm_config
     if vm_config.backup_policy_name != null
   }

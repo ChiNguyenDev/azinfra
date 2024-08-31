@@ -44,6 +44,10 @@ locals {
   }
 }
 
+resource "azurerm_dns_zone" "dns_zone" {
+  name                = "${module.naming.dns_zone.name}.com"
+  resource_group_name = azurerm_resource_group.webgroup.name
+}
 
 module "vm" {
   source   = "./modules/vm/"
@@ -53,9 +57,10 @@ module "vm" {
   location         = azurerm_resource_group.applicationgroup.location
   configuration    = each.value
   subnet_reference = module.network.subnet_reference
+  dns_zone_name = azurerm_dns_zone.dns_zone.name
+  web_resource_group = azurerm_resource_group.webgroup.name
   naming = module.naming
   tags = local.common_tags
-
   vm_name = each.key
   environment_decleration = var.environment_decleration
 }
@@ -64,4 +69,14 @@ module "naming" {
   source  = "Azure/naming/azurerm"
   suffix = [ var.environment_decleration ]
   prefix = [ "cl-ops" ]
+}
+
+// storage for logs, builds
+resource "azurerm_storage_account" "allpurposestorage" {
+  name                     = "allpurposestorage2210"
+  resource_group_name      = azurerm_resource_group.applicationgroup.name
+  location                 = azurerm_resource_group.applicationgroup.location
+  account_tier             = "Standard"
+  account_replication_type = "LRS"
+  tags = local.common_tags
 }

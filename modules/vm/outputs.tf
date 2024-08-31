@@ -1,9 +1,9 @@
 output "id" {
-  value = azurerm_windows_virtual_machine.azrinfra_vm.id
+  value = azurerm_linux_virtual_machine.azrinfra_vm.id
 }
 
 output "name" {
-    value = azurerm_windows_virtual_machine.azrinfra_vm.name
+    value = azurerm_linux_virtual_machine.azrinfra_vm.name
 }
 
 output "backup_policy_name" {

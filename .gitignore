@@ -12,6 +12,9 @@ crash.*.log
 #all .tfvars files, which are likely to contain sensitive data
 *.tfvars
 *.tfvars.json
+!test.tfvars
+!prod.tfvars
+
 
 # override files as they are usually used to override resources locally
 override.tf

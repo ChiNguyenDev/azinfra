@@ -1,0 +1,8 @@
+These are my personal notes for migrating the project into another account
+
+1. make a terrafrom.tfvars file with the subscription id
+2. make a "stateacc1999" storage account, "state" container
+3. make a "testvault1999" key vault and these following secrets:
+    	dbpassword
+        vm1password
+        vm2password

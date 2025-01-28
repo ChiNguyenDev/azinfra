@@ -6,3 +6,4 @@ These are my personal notes for migrating the project into another account
     	dbpassword
         vm1password
         vm2password
+4. Create a group "DBAdmins", add yourself and change the objectid
